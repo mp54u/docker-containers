@@ -14,23 +14,8 @@ CMD ["/sbin/my_init"]
 #########################################
 ##          GUI APP INSTALL            ##
 ######################################### 
-# install mate and dependencies 
-apt-get update -qq && \ 
-apt-get install -qy --force-yes --no-install-recommends \ 
-wget \ 
-openjdk-7-jre \ 
-sudo \ 
-mate-desktop-environment-core \ 
-x11vnc \ 
-xvfb \ 
-gtk2-engines-murrine \ 
-ttf-ubuntu-font-family \ 
-supervisor && \ 
-
-# install xrdp 
-apt-get install \ 
-xrdp -y && \ 
-mv /root/xrdp.ini /etc/xrdp/xrdp.ini && \ 
+ADD * /tmp/
+RUN chmod +x /tmp/install.sh && /tmp/install.sh && rm /tmp/install.sh
 
 #########################################
 ##         EXPORTS AND VOLUMES         ##
