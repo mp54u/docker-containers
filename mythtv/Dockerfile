@@ -1,6 +1,6 @@
 FROM phusion/baseimage:0.9.19
-
-# Set correct environment variables
+#1
+#2 Set correct environment variables
 ENV \
 	DEBIAN_FRONTEND=noninteractive \
 	HOME="/root" \
@@ -14,19 +14,19 @@ ENV \
 	APACHE_LOCK_DIR="/var/lock/apache2" \
 	APACHE_PID_FILE="/var/run/apache2.pid" 
 
-# Use baseimage-docker's init system
+#3 Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
-# Expose ports
+#4 Expose ports
 EXPOSE 3310 3389 5000/udp 5002/udp 5004/udp 6543 6544 6760 65001 65001/udp 
 
-# Add local files from git repo
+#5 Add local files from git repo
 ADD src/ /root/
 
-# set volumes
+#6 set volumes
 VOLUME /db /home/mythtv
 
-# chfn workaround - Known issue within Dockers
+#7 chfn workaround - Known issue within Dockers
 RUN ln -s -f /bin/true /usr/bin/chfn && \
 
 # Set the locale
@@ -56,7 +56,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CBCB082A1BB943DB && \
 apt-get update -qq && \
 apt-get install -qy --force-yes --no-install-recommends \
 wget \
-openjdk-8-jre
+openjdk-8-jre \
 sudo \
 mate-desktop-environment-core \
 x11vnc \
