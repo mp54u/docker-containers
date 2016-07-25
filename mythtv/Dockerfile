@@ -1,7 +1,18 @@
 FROM phusion/baseimage:0.9.19
 
 # Set correct environment variables
-ENV DEBIAN_FRONTEND=noninteractive HOME="/root" TERM=xterm LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8 APACHE_RUN_USER=www-data APACHE_RUN_GROUP=www-data APACHE_LOG_DIR="/var/log/apache2" APACHE_LOCK_DIR="/var/lock/apache2" APACHE_PID_FILE="/var/run/apache2.pid" 
+ENV \
+	DEBIAN_FRONTEND=noninteractive \
+	HOME="/root" \
+	TERM=xterm \
+	LANG=en_US.UTF-8 \
+	LANGUAGE=en_US:en \
+	LC_ALL=en_US.UTF-8 \
+	APACHE_RUN_USER=www-data \
+	APACHE_RUN_GROUP=www-data \
+	APACHE_LOG_DIR="/var/log/apache2" \
+	APACHE_LOCK_DIR="/var/lock/apache2" \
+	APACHE_PID_FILE="/var/run/apache2.pid" 
 
 CMD ["/sbin/my_init"]
 
@@ -11,7 +22,7 @@ CMD ["/sbin/my_init"]
 # Expose ports
 EXPOSE 3310 3389 5000/udp 5002/udp 5004/udp 6543 6544 6760 65001 65001/udp 
 
-# Add local files
+# Add local files from git repo
 ADD src/ /root/
 
 # set volumes
@@ -22,7 +33,6 @@ RUN ln -s -f /bin/true /usr/bin/chfn && \
 
 # Set the locale
 locale-gen en_US.UTF-8 && \
-
 
 # mv startup file(s) and make executable
 mv /root/001-fix-the-time.sh /etc/my_init.d/001-fix-the-time.sh && \
@@ -39,9 +49,9 @@ echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/s
 echo "deb http://archive.ubuntu.com/ubuntu/ xenial-updates multiverse" >> /etc/apt/sources.list && \
 echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial-updates multiverse" >> /etc/apt/sources.list && \
 apt-add-repository ppa:mythbuntu/0.28 && \
+apt-add-repository ppa:ubuntu-mate-dev/xenial-mate && \
 apt-add-repository ppa:ubuntu-mate-dev/ppa && \
-apt-add-repository ppa:ubuntu-mate-dev/trusty-mate && \
-sh -c 'echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main" >> /etc/apt/sources.list.d/mariadb.list' && \
+sh -c 'echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu xenial main" >> /etc/apt/sources.list.d/mariadb.list' && \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CBCB082A1BB943DB && \
 
 
