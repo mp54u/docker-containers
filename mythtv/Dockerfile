@@ -14,8 +14,6 @@ ENV \
 	APACHE_LOCK_DIR="/var/lock/apache2" \
 	APACHE_PID_FILE="/var/run/apache2.pid" 
 
-CMD ["/sbin/my_init"]
-
 # Use baseimage-docker's init system
 CMD ["/sbin/my_init"]
 
@@ -48,10 +46,9 @@ echo "deb http://archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/sourc
 echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/sources.list && \
 echo "deb http://archive.ubuntu.com/ubuntu/ xenial-updates multiverse" >> /etc/apt/sources.list && \
 echo "deb-src http://archive.ubuntu.com/ubuntu/ xenial-updates multiverse" >> /etc/apt/sources.list && \
-apt-add-repository ppa:mythbuntu/0.28 && \
-apt-add-repository ppa:ubuntu-mate-dev/xenial-mate && \
-apt-add-repository ppa:ubuntu-mate-dev/ppa && \
-sh -c 'echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu xenial main" >> /etc/apt/sources.list.d/mariadb.list' && \
+apt-add-repository ppa:mythbuntu/0.28 -y && \
+apt-add-repository ppa:ubuntu-mate-dev/xenial-mate -y && \
+sh -c 'echo "deb http://ftp.osuosl.org/pub/mariadb/repo/5.5/ubuntu trusty main" >> /etc/apt/sources.list.d/mariadb.list' && \
 apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CBCB082A1BB943DB && \
 
 
@@ -59,7 +56,7 @@ apt-key adv --keyserver keyserver.ubuntu.com --recv-keys CBCB082A1BB943DB && \
 apt-get update -qq && \
 apt-get install -qy --force-yes --no-install-recommends \
 wget \
-openjdk-7-jre \
+openjdk-8-jre
 sudo \
 mate-desktop-environment-core \
 x11vnc \
@@ -69,8 +66,7 @@ ttf-ubuntu-font-family \
 supervisor && \
 
 # install xrdp
-apt-get install \
-xrdp -y && \
+apt-get install xrdp -y && \
 mv /root/xrdp.ini /etc/xrdp/xrdp.ini && \
 
 # install mythtv-backend and mariadb-server
@@ -84,11 +80,11 @@ apt-get install \
 mythweb -y && \
 
 # Configure apache
-sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini && \
-sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini && \
-mv /root/ports.conf /etc/apache2/ports.conf && \
-mv /root/000-default-mythbuntu.conf /etc/apache2/sites-available/000-default-mythbuntu.conf && \
-mv /root/mythweb.conf /etc/apache2/sites-available/mythweb.conf  && \
+# sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini && \
+# sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini && \
+# mv /root/ports.conf /etc/apache2/ports.conf && \
+# mv /root/000-default-mythbuntu.conf /etc/apache2/sites-available/000-default-mythbuntu.conf && \
+# mv /root/mythweb.conf /etc/apache2/sites-available/mythweb.conf  && \
 
 # Tweak my.cnf
 mv /root/my.cnf /etc/mysql/my.cnf && \
