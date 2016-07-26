@@ -23,23 +23,23 @@ EXPOSE 3310 3389 5000/udp 5002/udp 5004/udp 6543 6544 6760 65001 65001/udp
 # Add local files from git repo
 ADD src/ /root/
 
-#6 set volumes
+# set volumes
 VOLUME /db /home/mythtv
 
-#7 chfn workaround - Known issue within Dockers
+# chfn workaround - Known issue within Dockers
 RUN ln -s -f /bin/true /usr/bin/chfn && \
 
 # Set the locale
 locale-gen en_US.UTF-8 && \
 
 # mv startup file(s) and make executable
-#mv /root/001-fix-the-time.sh /etc/my_init.d/001-fix-the-time.sh && \
-#mv /root/002-fix-the-config-etc.sh /etc/my_init.d/002-fix-the-config-etc.sh && \
-#mv /root/003-bring-up-the-database.sh /etc/my_init.d/003-bring-up-the-database.sh && \
-#mv /root/004-bring-up-rdp.sh /etc/my_init.d/004-bring-up-rdp.sh && \
-#mv /root/005-bring-up-the-backend.sh /etc/my_init.d/005-bring-up-the-backend.sh && \
-#mv /root/006-bring-up-mythweb.sh /etc/my_init.d/006-bring-up-mythweb.sh && \
-#chmod +x /etc/my_init.d/* && \
+mv /root/001-fix-the-time.sh /etc/my_init.d/001-fix-the-time.sh && \
+mv /root/002-fix-the-config-etc.sh /etc/my_init.d/002-fix-the-config-etc.sh && \
+mv /root/003-bring-up-the-database.sh /etc/my_init.d/003-bring-up-the-database.sh && \
+mv /root/004-bring-up-rdp.sh /etc/my_init.d/004-bring-up-rdp.sh && \
+mv /root/005-bring-up-the-backend.sh /etc/my_init.d/005-bring-up-the-backend.sh && \
+mv /root/006-bring-up-mythweb.sh /etc/my_init.d/006-bring-up-mythweb.sh && \
+chmod +x /etc/my_init.d/* && \
 
 # add repos
 echo "deb http://archive.ubuntu.com/ubuntu/ xenial multiverse" >> /etc/apt/sources.list && \
@@ -76,15 +76,16 @@ pwgen \
 mythtv-backend -y && \
 
 # install mythweb
-apt-get install \
-mythweb -y && \
+apt-get install mythweb -y && \
 
 # Configure apache
-# sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php5/apache2/php.ini && \
-# sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php5/apache2/php.ini && \
-# mv /root/ports.conf /etc/apache2/ports.conf && \
-# mv /root/000-default-mythbuntu.conf /etc/apache2/sites-available/000-default-mythbuntu.conf && \
-# mv /root/mythweb.conf /etc/apache2/sites-available/mythweb.conf  && \
+sed -i "s/short_open_tag = Off/short_open_tag = On/" /etc/php/7.0/apache2/php.ini && \
+sed -i "s/error_reporting = .*$/error_reporting = E_ERROR | E_WARNING | E_PARSE/" /etc/php/7.0/apache2/php.ini && \
+mv /root/ports.conf /etc/apache2/ports.conf && \
+mv /etc/apache2/sites-available/000-default-mythbuntu.conf /root/000-default-mythbuntu.orig && \
+mv /root/000-default-mythbuntu.conf /etc/apache2/sites-available/000-default-mythbuntu.conf && \
+mv /etc/apache2/sites-available/mythweb.conf /root/mythweb.orig && \
+mv /root/mythweb.conf /etc/apache2/sites-available/mythweb.conf  && \
 
 # Tweak my.cnf
 mv /root/my.cnf /etc/mysql/my.cnf && \
