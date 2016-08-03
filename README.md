@@ -1,17 +1,15 @@
-# docker-containers
-This is a Mythtv .28 docker running in phusion base 0.9.19 (based on ubuntu 16.04).   
+# mp54u/docker-containers
 
-All of the scripts were originally written by SparklyBall's sparkly-mythtv
-https://github.com/sparklyballs/docker-containers.
+### myth28:
+Purpose: This docker is used for running mythtv .28 on UNRAID 6.1+  It is built
+100% based off of Sparklyballs's sparkly-mythtv docker found here https://github.com/sparklyballs/docker-containers.
+-  Uses mythbuntu .28 ppa
+-  based on phusion/baseimage 0.9.19 found at https://hub.docker.com/r/phusion/baseimage/
+   This baseimage is based on Ubuntu 16.04.
 
-I am waiting for his permission or direction to determine where to proceed here.
-I only modified a few lines of a couple of the files to point to the new locations in the newer phusion base.  
-So 99.999 percent of this work is his and he should be the one taking the credit.  
-
-I just needed a .28 mythtv docker container that would work for my unraid setup.   Since I 
-have been using his for the last year or so,   I would like to try and contribute back.
-
-If I am doing anything wrong by doing this,  please tell me and I will take it down.
+I am waiting for permission from Sparklyballs to either have him add this to his repo or give me permission 
+to publish in Community apps for unraid.  It is his work and I don't want to take credit.   I only changed 
+a few paths in the dockerfile and run scripts to point to locations that changed due to phusion baseimage change.
 
 Thank You,
 mp54u
